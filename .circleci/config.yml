@@ -7,7 +7,14 @@ jobs:
           fingerprints:
             - "57:0d:3a:ff:da:c8:9e:71:dc:d1:35:91:7c:f7:50:42"
       - checkout
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: docker login --username=$DOCKER_USER --password=$DOCKER_PASS cloud.canister.io:5000
       - run: docker build -t nicrom/coindor:$CIRCLE_SHA1 .
       - run: docker push nicrom/coindor:$CIRCLE_SHA1
-      - run: ssh -o StrictHostKeyChecking=no nicrom@35.192.146.6 "/bin/bash /home/nicrom/docker/deploy.sh $CIRCLE_SHA1"    
+  deploy:
+    machine: true
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "57:0d:3a:ff:da:c8:9e:71:dc:d1:35:91:7c:f7:50:42"
+      - checkout
+      - run: ssh -o StrictHostKeyChecking=no nicrom@35.192.146.6 "/bin/bash /home/nicrom/veinte-deployer/deploy.sh $CIRCLE_SHA1"          
