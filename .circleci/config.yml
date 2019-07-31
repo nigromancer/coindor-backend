@@ -8,8 +8,8 @@ jobs:
             - "57:0d:3a:ff:da:c8:9e:71:dc:d1:35:91:7c:f7:50:42"
       - checkout
       - run: docker login --username=$DOCKER_USER --password=$DOCKER_PASS cloud.canister.io:5000
-      - run: docker build -t nicrom/coindor:$CIRCLE_SHA1 .
-      - run: docker push nicrom/coindor:$CIRCLE_SHA1
+      - run: docker build -t cloud.canister.io:5000/nicrom/coindor:$CIRCLE_SHA1 .
+      - run: docker push cloud.canister.io:5000/nicrom/coindor:$CIRCLE_SHA1
   deploy:
     machine: true
     steps:
